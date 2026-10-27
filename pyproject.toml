@@ -1,0 +1,35 @@
+[project]
+name = "poker-agent-evaluation-framework"
+version = "0.1.0"
+description = "Scientific evaluation framework for poker agents"
+authors = [
+    { name = "redomorph" }
+]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
+
+[project.scripts]
+poker = "pokerbench.cli.main:main"
+pokerbench = "pokerbench.cli.main:main"
+
+[tool.poetry]
+packages = [
+    { include = "pokerbench", from = "src" }
+]
+
+[tool.coverage.run]
+source = ["src/pokerbench"]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest (>=9.1.1,<10.0.0)",
+    "pytest-cov (>=7.1.0,<8.0.0)",
+    "alembic (>=1.19.1,<2.0.0)",
+    "sqlalchemy (>=2.0.51,<3.0.0)"
+]

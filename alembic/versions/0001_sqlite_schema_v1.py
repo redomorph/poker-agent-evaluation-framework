@@ -1,0 +1,412 @@
+"""Create SQLite benchmark schema v1.
+
+Revision ID: 0001_sqlite_schema_v1
+Revises:
+Create Date: 2026-08-10
+"""
+
+from __future__ import annotations
+
+from collections.abc import Sequence
+
+from alembic import op
+import sqlalchemy as sa
+
+
+revision: str = "0001_sqlite_schema_v1"
+down_revision: str | None = None
+branch_labels: str | Sequence[str] | None = None
+depends_on: str | Sequence[str] | None = None
+
+
+def upgrade() -> None:
+    """Create the documented schema-v1 tables."""
+    op.create_table(
+        "schema_version",
+        sa.Column(
+            "singleton",
+            sa.Integer(),
+            primary_key=True,
+        ),
+        sa.Column(
+            "version",
+            sa.Integer(),
+            nullable=False,
+        ),
+        sa.Column(
+            "migration_id",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "applied_at_utc",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.CheckConstraint(
+            "singleton = 1",
+            name="ck_schema_version_singleton",
+        ),
+    )
+
+    op.create_table(
+        "matches",
+        sa.Column(
+            "id",
+            sa.Text(),
+            primary_key=True,
+        ),
+        sa.Column(
+            "schema_version",
+            sa.Integer(),
+            nullable=False,
+        ),
+        sa.Column(
+            "seed",
+            sa.Integer(),
+            nullable=False,
+        ),
+        sa.Column(
+            "experiment_id",
+            sa.Text(),
+        ),
+        sa.Column(
+            "experiment_config_hash",
+            sa.Text(),
+        ),
+        sa.Column(
+            "experiment_config_json",
+            sa.Text(),
+        ),
+        sa.Column(
+            "game_config_hash",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "abstraction_version",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "bot_version",
+            sa.Text(),
+        ),
+        sa.Column(
+            "opponent_hash",
+            sa.Text(),
+        ),
+        sa.Column(
+            "hands_played",
+            sa.Integer(),
+            nullable=False,
+        ),
+        sa.Column(
+            "ev_bb_100",
+            sa.Float(),
+        ),
+        sa.Column(
+            "ci_low",
+            sa.Float(),
+        ),
+        sa.Column(
+            "ci_high",
+            sa.Float(),
+        ),
+        sa.Column(
+            "engine_version",
+            sa.Text(),
+        ),
+        sa.Column(
+            "python_version",
+            sa.Text(),
+        ),
+        sa.Column(
+            "rng_version",
+            sa.Text(),
+        ),
+        sa.Column(
+            "git_commit",
+            sa.Text(),
+        ),
+        sa.Column(
+            "starting_stack",
+            sa.Float(),
+            nullable=False,
+        ),
+        sa.Column(
+            "small_blind",
+            sa.Float(),
+            nullable=False,
+        ),
+        sa.Column(
+            "big_blind",
+            sa.Float(),
+            nullable=False,
+        ),
+        sa.Column(
+            "rake",
+            sa.Float(),
+            nullable=False,
+        ),
+        sa.Column(
+            "population_id",
+            sa.Text(),
+        ),
+        sa.Column(
+            "population_seed",
+            sa.Integer(),
+        ),
+        sa.Column(
+            "opponent_parameters_json",
+            sa.Text(),
+        ),
+        sa.Column(
+            "bot_configuration_json",
+            sa.Text(),
+        ),
+        sa.Column(
+            "statistical_method",
+            sa.Text(),
+        ),
+        sa.Column(
+            "sample_size",
+            sa.Integer(),
+        ),
+        sa.Column(
+            "precision_target_json",
+            sa.Text(),
+        ),
+        sa.Column(
+            "poetry_lock_hash",
+            sa.Text(),
+        ),
+        sa.Column(
+            "hardware_fingerprint",
+            sa.Text(),
+        ),
+        sa.Column(
+            "os_identifier",
+            sa.Text(),
+        ),
+        sa.Column(
+            "record_json",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "record_hash",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "created_at_utc",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.CheckConstraint(
+            "hands_played >= 0",
+            name="ck_matches_hands_played",
+        ),
+        sa.CheckConstraint(
+            "sample_size IS NULL OR sample_size >= 0",
+            name="ck_matches_sample_size",
+        ),
+    )
+
+    op.create_table(
+        "hands",
+        sa.Column(
+            "id",
+            sa.Integer(),
+            primary_key=True,
+            autoincrement=True,
+        ),
+        sa.Column(
+            "match_id",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "hand_ordinal",
+            sa.Integer(),
+            nullable=False,
+        ),
+        sa.Column(
+            "hand_index",
+            sa.Integer(),
+            nullable=False,
+        ),
+        sa.Column(
+            "config_id",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "dealer",
+            sa.Integer(),
+            nullable=False,
+        ),
+        sa.Column(
+            "seat0_bot_id",
+            sa.Integer(),
+            nullable=False,
+        ),
+        sa.Column(
+            "seat1_bot_id",
+            sa.Integer(),
+            nullable=False,
+        ),
+        sa.Column(
+            "street",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "hero_cards",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "villain_cards",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "board",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "actions_json",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "pot",
+            sa.Float(),
+            nullable=False,
+        ),
+        sa.Column(
+            "ev_change",
+            sa.Float(),
+        ),
+        sa.Column(
+            "termination",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "timeout_events_json",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "hand_record_json",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.Column(
+            "hand_record_hash",
+            sa.Text(),
+            nullable=False,
+        ),
+        sa.ForeignKeyConstraint(
+            ["match_id"],
+            ["matches.id"],
+            ondelete="CASCADE",
+        ),
+        sa.UniqueConstraint(
+            "match_id",
+            "hand_ordinal",
+            name="uq_hands_match_ordinal",
+        ),
+        sa.CheckConstraint(
+            "hand_ordinal >= 0",
+            name="ck_hands_hand_ordinal",
+        ),
+        sa.CheckConstraint(
+            "hand_index >= 0",
+            name="ck_hands_hand_index",
+        ),
+        sa.CheckConstraint(
+            "dealer IN (0, 1)",
+            name="ck_hands_dealer",
+        ),
+        sa.CheckConstraint(
+            "seat0_bot_id IN (0, 1)",
+            name="ck_hands_seat0_bot_id",
+        ),
+        sa.CheckConstraint(
+            "seat1_bot_id IN (0, 1)",
+            name="ck_hands_seat1_bot_id",
+        ),
+        sa.CheckConstraint(
+            "pot >= 0",
+            name="ck_hands_pot",
+        ),
+    )
+
+    op.create_index(
+        "idx_hands_match_id",
+        "hands",
+        ["match_id"],
+    )
+    op.create_index(
+        "idx_hands_match_street",
+        "hands",
+        [
+            "match_id",
+            "street",
+        ],
+    )
+    op.create_index(
+        "idx_hands_match_termination",
+        "hands",
+        [
+            "match_id",
+            "termination",
+        ],
+    )
+
+    op.execute(
+        """
+        INSERT INTO schema_version (
+            singleton,
+            version,
+            migration_id,
+            applied_at_utc
+        )
+        VALUES (
+            1,
+            1,
+            '0001_sqlite_schema_v1',
+            CURRENT_TIMESTAMP
+        )
+        """
+    )
+
+
+def downgrade() -> None:
+    """Drop schema-v1 tables."""
+    op.drop_index(
+        "idx_hands_match_termination",
+        table_name="hands",
+    )
+    op.drop_index(
+        "idx_hands_match_street",
+        table_name="hands",
+    )
+    op.drop_index(
+        "idx_hands_match_id",
+        table_name="hands",
+    )
+    op.drop_table(
+        "hands"
+    )
+    op.drop_table(
+        "matches"
+    )
+    op.drop_table(
+        "schema_version"
+    )

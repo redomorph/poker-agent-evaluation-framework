@@ -1,0 +1,6 @@
+# Frozen machine-readable experiment inputs must have canonical LF bytes.
+configs/experiments/*.json text eol=lf
+configs/populations/*.json text eol=lf
+
+# Frozen machine-readable Gate-6 artifacts must also have canonical LF bytes.
+data/gate6/*.json text eol=lf

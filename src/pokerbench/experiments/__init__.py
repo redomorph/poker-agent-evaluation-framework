@@ -1,0 +1,53 @@
+# src/pokerbench/experiments/__init__.py
+"""Experiment definitions and reproducibility infrastructure."""
+
+from pokerbench.experiments.config import (
+    EXPERIMENT_CONFIG_FILE_VERSION,
+    EXPERIMENT_CONFIG_SCHEMA_VERSION,
+    AgentExperimentConfig,
+    CalibrationRecord,
+    CanonicalJSON,
+    CRNMode,
+    ExecutionEnvironment,
+    ExperimentConfig,
+    PopulationConfig,
+    PowerTarget,
+    PrecisionTarget,
+    RNGConfiguration,
+    SampleSizePlan,
+    StatisticalMethodConfig,
+    canonical_experiment_config_dict,
+    canonical_experiment_config_json,
+    capture_execution_environment,
+    experiment_config_from_dict,
+    experiment_config_hash,
+    load_experiment_config,
+    save_experiment_config,
+    sha256_file,
+)
+
+
+__all__ = [
+    "EXPERIMENT_CONFIG_FILE_VERSION",
+    "EXPERIMENT_CONFIG_SCHEMA_VERSION",
+    "AgentExperimentConfig",
+    "CalibrationRecord",
+    "CanonicalJSON",
+    "CRNMode",
+    "ExecutionEnvironment",
+    "ExperimentConfig",
+    "PopulationConfig",
+    "PowerTarget",
+    "PrecisionTarget",
+    "RNGConfiguration",
+    "SampleSizePlan",
+    "StatisticalMethodConfig",
+    "canonical_experiment_config_dict",
+    "canonical_experiment_config_json",
+    "capture_execution_environment",
+    "experiment_config_from_dict",
+    "experiment_config_hash",
+    "load_experiment_config",
+    "save_experiment_config",
+    "sha256_file",
+]
